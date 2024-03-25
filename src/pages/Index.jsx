@@ -97,11 +97,21 @@ const Index = () => {
               <Box>
                 <Text fontWeight="bold">Plagiarism Details:</Text>
                 <Box borderWidth={1} borderRadius="md" padding={4}>
-                  {inputText.split("\n").map((line, index) => (
-                    <Text key={index} backgroundColor={plagiarismReport.plagiarizedLines.includes(line) ? "red.100" : "transparent"} marginBottom={2} padding={2}>
-                      {line}
-                    </Text>
-                  ))}
+                  {inputText.split("\n").map((line, index) => {
+                    if (plagiarismReport.plagiarizedLines.includes(line.trim())) {
+                      return (
+                        <Text key={index} backgroundColor="red.100" marginBottom={2} padding={2}>
+                          {line}
+                        </Text>
+                      );
+                    } else {
+                      return (
+                        <Text key={index} marginBottom={2} padding={2}>
+                          {line}
+                        </Text>
+                      );
+                    }
+                  })}
                 </Box>
               </Box>
               <Box>
