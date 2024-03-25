@@ -36,7 +36,7 @@ const Index = () => {
     setTimeout(() => {
       const plagiarismPercentage = Math.floor(Math.random() * 50) + 10;
       const aiContentPercentage = Math.floor(Math.random() * 30) + 5;
-      const plagiarizedLines = ["This is the first plagiarized line.", "This is the second plagiarized line.", "This is the third plagiarized line."];
+      const plagiarizedLines = inputText.split("\n").slice(0, 3);
       const aiGeneratedLines = ["This is the first AI-generated line.", "This is the second AI-generated line."];
       const rephrasedText = `This is the rephrased version of the plagiarized text. Original text: "${inputText}"`;
 
@@ -97,15 +97,11 @@ const Index = () => {
               <Box>
                 <Text fontWeight="bold">Plagiarism Details:</Text>
                 <Box borderWidth={1} borderRadius="md" padding={4}>
-                  {inputText.split("\n").map((line, index) => {
-                    if (plagiarismReport.plagiarizedLines.includes(line)) {
-                      return (
-                        <Text key={index} backgroundColor="red.100" marginBottom={2} padding={2}>
-                          {line}
-                        </Text>
-                      );
-                    }
-                  })}
+                  {inputText.split("\n").map((line, index) => (
+                    <Text key={index} backgroundColor={plagiarismReport.plagiarizedLines.includes(line) ? "red.100" : "transparent"} marginBottom={2} padding={2}>
+                      {line}
+                    </Text>
+                  ))}
                 </Box>
               </Box>
               <Box>
