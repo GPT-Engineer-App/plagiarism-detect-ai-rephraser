@@ -39,11 +39,15 @@ const Index = () => {
     setTimeout(() => {
       const plagiarismPercentage = Math.floor(Math.random() * 50) + 10;
       const aiContentPercentage = Math.floor(Math.random() * 30) + 5;
+      const plagiarizedLines = ["This is the first plagiarized line.", "This is the second plagiarized line.", "This is the third plagiarized line."];
+      const aiGeneratedLines = ["This is the first AI-generated line.", "This is the second AI-generated line."];
       const rephrasedText = `This is the rephrased version of the plagiarized text. Original text: "${inputText}"`;
 
       setPlagiarismReport({
         plagiarismPercentage,
         aiContentPercentage,
+        plagiarizedLines,
+        aiGeneratedLines,
         rephrasedText,
       });
 
@@ -94,8 +98,37 @@ const Index = () => {
               </Box>
               <Divider />
               <Box>
-                <Text fontWeight="bold">Rephrased Text:</Text>
-                <Text>{plagiarismReport.rephrasedText}</Text>
+                <Text fontWeight="bold">Plagiarism Details:</Text>
+                <Box borderWidth={1} borderRadius="md" padding={4}>
+                  {plagiarismReport.plagiarizedLines.map((line, index) => (
+                    <Text key={index} backgroundColor="red.100" marginBottom={2} padding={2}>
+                      {line}
+                    </Text>
+                  ))}
+                </Box>
+              </Box>
+              <Box>
+                <Text fontWeight="bold">AI-Generated Content Details:</Text>
+                <Box borderWidth={1} borderRadius="md" padding={4}>
+                  {plagiarismReport.aiGeneratedLines.map((line, index) => (
+                    <Text key={index} backgroundColor="yellow.100" marginBottom={2} padding={2}>
+                      {line}
+                    </Text>
+                  ))}
+                </Box>
+              </Box>
+              <Box>
+                <Text fontWeight="bold">Original Text vs Rephrased Text:</Text>
+                <Box display="flex">
+                  <Box flex={1} padding={4} borderWidth={1} borderRadius="md" marginRight={4}>
+                    <Text fontWeight="bold">Original Text</Text>
+                    <Text whiteSpace="pre-wrap">{inputText}</Text>
+                  </Box>
+                  <Box flex={1} padding={4} borderWidth={1} borderRadius="md">
+                    <Text fontWeight="bold">Rephrased Text</Text>
+                    <Text whiteSpace="pre-wrap">{plagiarismReport.rephrasedText}</Text>
+                  </Box>
+                </Box>
               </Box>
             </VStack>
           </Box>
