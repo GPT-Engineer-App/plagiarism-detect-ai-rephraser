@@ -64,8 +64,8 @@ const Index = () => {
             Upload File or Paste Text
           </Heading>
           <HStack>
-            <Button leftIcon={<FaFileUpload />}>
-              <input type="file" accept=".txt,.doc,.docx,.pdf" onChange={handleFileUpload} style={{ display: "none" }} />
+            <Button leftIcon={<FaFileUpload />} onClick={() => document.getElementById("fileInput").click()}>
+              <input id="fileInput" type="file" accept=".txt,.doc,.docx,.pdf" onChange={handleFileUpload} style={{ display: "none" }} />
               Upload File
             </Button>
             <Text>or</Text>
@@ -97,21 +97,29 @@ const Index = () => {
               <Box>
                 <Text fontWeight="bold">Plagiarism Details:</Text>
                 <Box borderWidth={1} borderRadius="md" padding={4}>
-                  {plagiarismReport.plagiarizedLines.map((line, index) => (
-                    <Text key={index} backgroundColor="red.100" marginBottom={2} padding={2}>
-                      {line}
-                    </Text>
-                  ))}
+                  {inputText.split("\n").map((line, index) => {
+                    if (plagiarismReport.plagiarizedLines.includes(line)) {
+                      return (
+                        <Text key={index} backgroundColor="red.100" marginBottom={2} padding={2}>
+                          {line}
+                        </Text>
+                      );
+                    }
+                  })}
                 </Box>
               </Box>
               <Box>
                 <Text fontWeight="bold">AI-Generated Content Details:</Text>
                 <Box borderWidth={1} borderRadius="md" padding={4}>
-                  {plagiarismReport.aiGeneratedLines.map((line, index) => (
-                    <Text key={index} backgroundColor="yellow.100" marginBottom={2} padding={2}>
-                      {line}
-                    </Text>
-                  ))}
+                  {inputText.split("\n").map((line, index) => {
+                    if (plagiarismReport.aiGeneratedLines.includes(line)) {
+                      return (
+                        <Text key={index} backgroundColor="yellow.100" marginBottom={2} padding={2}>
+                          {line}
+                        </Text>
+                      );
+                    }
+                  })}
                 </Box>
               </Box>
               <Box>
