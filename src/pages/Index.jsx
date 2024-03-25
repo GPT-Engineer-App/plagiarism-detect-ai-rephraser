@@ -8,13 +8,10 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
 
-  const handleFileUpload = (event) => {
+  const handleFileUpload = async (event) => {
     const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      setInputText(e.target.result);
-    };
-    reader.readAsText(file);
+    const text = await file.text();
+    setInputText(text);
   };
 
   const handlePasteText = (event) => {
@@ -122,7 +119,25 @@ const Index = () => {
                 <Box display="flex">
                   <Box flex={1} padding={4} borderWidth={1} borderRadius="md" marginRight={4}>
                     <Text fontWeight="bold">Original Text</Text>
-                    <Text whiteSpace="pre-wrap">{inputText}</Text>
+                    <Box whiteSpace="pre-wrap">
+                      {inputText.split("\n").map((line, index) => {
+                        if (plagiarismReport.plagiarizedLines.includes(line)) {
+                          return (
+                            <Text key={index} backgroundColor="red.100">
+                              {line}
+                            </Text>
+                          );
+                        } else if (plagiarismReport.aiGeneratedLines.includes(line)) {
+                          return (
+                            <Text key={index} backgroundColor="yellow.100">
+                              {line}
+                            </Text>
+                          );
+                        } else {
+                          return <Text key={index}>{line}</Text>;
+                        }
+                      })}
+                    </Box>
                   </Box>
                   <Box flex={1} padding={4} borderWidth={1} borderRadius="md">
                     <Text fontWeight="bold">Rephrased Text</Text>
